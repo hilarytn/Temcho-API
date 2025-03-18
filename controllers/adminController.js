@@ -32,6 +32,13 @@ export const getUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { name, email, role } = req.body;
+    
+    // Check if user exists
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
     const updatedUser = await User.findByIdAndUpdate(req.params.id, { name, email, role }, { new: true }).select("-password");
 
     res.status(200).json(updatedUser);
