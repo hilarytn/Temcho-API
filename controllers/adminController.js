@@ -3,10 +3,17 @@ import User from "../models/User.js";
 // @desc Get all users
 // @route GET /api/admin/users
 // @access Private (Admin)
+// Get all users with pagination
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password");
-    res.status(200).json(users);
+    const { page = 1, limit = 10 } = req.query;
+    const users = await User.find({ isDeleted: false })
+      .skip((page - 1) * limit)
+      .limit(Number(limit))
+      .select("-password");
+    
+    const totalUsers = await User.countDocuments({ isDeleted: false });
+    res.status(200).json({ users, totalPages: Math.ceil(totalUsers / limit), currentPage: Number(page) });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
