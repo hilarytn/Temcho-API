@@ -35,7 +35,7 @@ export const createProductionRecord = async (req, res) => {
   
   export const updateProductionRecord = async (req, res) => {
     try {
-      const { quantity, date, shift, operator, nylonRollsUsed, packingBagsUsed, powerSources } = req.body;
+      const { quantity, date, shift, operator, nylonRollsUsed, packingBagsUsed, powerSource } = req.body;
       const record = await Production.findByIdAndUpdate(req.params.id, { quantity, date, shift, operator, nylonRollsUsed, packingBagsUsed, powerSource }, { new: true }).populate("operator");
       res.status(200).json({ message: "Production record updated", record });
     } catch (error) {
