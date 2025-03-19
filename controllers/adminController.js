@@ -106,3 +106,21 @@ export const changeUserRole = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+
+import Operator from "../models/Operator.js";
+
+export const addOperator = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ message: "Operator name is required" });
+    }
+
+    const newOperator = await Operator.create({ name });
+    res.status(201).json({ message: "Operator added successfully", operator: newOperator });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
