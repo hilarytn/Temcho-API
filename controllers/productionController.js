@@ -56,3 +56,14 @@ export const createProductionRecord = async (req, res) => {
       res.status(500).json({ message: "Server error", error });
     }
   };
+
+  // This is fotr development purpose...I will remove it once I am done testing
+  // Delete all production records (for development/testing purposes)
+export const deleteAllProduction = async (req, res) => {
+    try {
+      await Production.deleteMany({});
+      res.status(200).json({ message: "All production records deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error });
+    }
+  };  
