@@ -36,7 +36,7 @@ export const createProductionRecord = async (req, res) => {
   export const updateProductionRecord = async (req, res) => {
     try {
       const { quantity, date, shift, operators, nylonRollsUsed, packingBagsUsed, powerSources } = req.body;
-      const record = await Production.findByIdAndUpdate(req.params.id, { quantity, date, shift, operators, nylonRollsUsed, packingBagsUsed, powerSources }, { new: true }).populate("operators");
+      const record = await Production.findByIdAndUpdate(req.params.id, { quantity, date, shift, operator, nylonRollsUsed, packingBagsUsed, powerSources }, { new: true }).populate("operators");
       res.status(200).json({ message: "Production record updated", record });
     } catch (error) {
       res.status(500).json({ message: "Server error", error });
