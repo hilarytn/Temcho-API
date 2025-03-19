@@ -124,3 +124,26 @@ export const addOperator = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+// Get all operators
+export const getAllOperators = async (req, res) => {
+  try {
+    const operators = await Operator.find();
+    res.status(200).json(operators);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// Get operator by ID
+export const getOperatorById = async (req, res) => {
+  try {
+    const operator = await Operator.findById(req.params.id);
+    if (!operator) {
+      return res.status(404).json({ message: "Operator not found" });
+    }
+    res.status(200).json(operator);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};

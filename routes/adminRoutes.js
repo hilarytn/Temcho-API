@@ -5,8 +5,10 @@ import {
     updateUser, 
     deleteUser, 
     changeUserRole, 
-    softDeleteUser} from "../controllers/adminController.js";
-import { addOperator } from "../controllers/adminController.js";
+    softDeleteUser,
+    addOperator,
+    getAllOperators,
+    getOperatorById} from "../controllers/adminController.js";
 import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -18,5 +20,7 @@ router.delete("/users/:id", authMiddleware, isAdmin, deleteUser);
 router.delete("/users/:id/soft", authMiddleware, isAdmin, softDeleteUser);
 router.put("/users/:id/role", authMiddleware, isAdmin, changeUserRole);
 router.post("/add-operator",authMiddleware, isAdmin, addOperator);
+router.get("/operators", authMiddleware, isAdmin, getAllOperators);
+router.get("/operator/:id", authMiddleware, isAdmin, getOperatorById);
 
 export default router;
