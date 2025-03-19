@@ -2,9 +2,9 @@ import Production from "../models/Production.js";
 
 export const createProductionRecord = async (req, res) => {
     try {
-      const { quantity, date, shift, operators, nylonRollsUsed, packingBagsUsed, powerSources } = req.body;
+      const { quantity, date, shift, operators, nylonRollsUsed, packingBagsUsed, powerSource } = req.body;
       const productionRecord = await Production.create({ 
-        quantity, date, shift, operators, nylonRollsUsed, packingBagsUsed, powerSources 
+        quantity, date, shift, operators, nylonRollsUsed, packingBagsUsed, powerSource 
     });
       res.status(201).json({ message: "Production record created", productionRecord });
     } catch (error) {
