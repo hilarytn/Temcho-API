@@ -4,7 +4,8 @@ import {
     getAllProductionRecords, 
     getProductionRecordById, 
     updateProductionRecord, 
-    deleteProductionRecord 
+    deleteProductionRecord, 
+    deleteAllProduction
 } from "../controllers/productionController.js";
 import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 
@@ -16,5 +17,6 @@ router.get("/all", authMiddleware, getAllProductionRecords);
 router.get("/:id", authMiddleware, getProductionRecordById);
 router.put("/:id", authMiddleware, isAdmin, updateProductionRecord);
 router.delete("/:id", authMiddleware, isAdmin, deleteProductionRecord);
+router.delete("/delete/delete-all", authMiddleware, isAdmin, deleteAllProduction)
 
 export default router;

@@ -2,9 +2,9 @@ import Production from "../models/Production.js";
 
 export const createProductionRecord = async (req, res) => {
     try {
-      const { quantity, date, shift, operators, nylonRollsUsed, packingBagsUsed, powerSource } = req.body;
+      const { quantity, date, shift, operator, nylonRollsUsed, packingBagsUsed, powerSource } = req.body;
       const productionRecord = await Production.create({ 
-        quantity, date, shift, operators, nylonRollsUsed, packingBagsUsed, powerSource 
+        quantity, date, shift, operator, nylonRollsUsed, packingBagsUsed, powerSource 
     });
       res.status(201).json({ message: "Production record created", productionRecord });
     } catch (error) {
@@ -14,7 +14,7 @@ export const createProductionRecord = async (req, res) => {
   
   export const getAllProductionRecords = async (req, res) => {
     try {
-      const records = await Production.find({ isDeleted: false }).populate("operators");
+      const records = await Production.find({ isDeleted: false }).populate("operator");
       res.status(200).json(records);
     } catch (error) {
       res.status(500).json({ message: "Server error", error });
