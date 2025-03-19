@@ -23,7 +23,7 @@ export const createProductionRecord = async (req, res) => {
   
   export const getProductionRecordById = async (req, res) => {
     try {
-      const record = await Production.findById(req.params.id).populate("operators");
+      const record = await Production.findById(req.params.id).populate("operator");
       if (!record || record.isDeleted) {
         return res.status(404).json({ message: "Production record not found" });
       }
