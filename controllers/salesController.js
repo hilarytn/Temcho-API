@@ -105,14 +105,13 @@ export const updateSale = async (req, res) => {
       sale.date = date;
     }
 
-    // Update other fields
-    sale.customer = customer ?? sale.customer;
-    sale.quantity = quantity ?? sale.quantity;
-    sale.rate = rate ?? sale.rate;
-    sale.value = quantity * rate;
-    sale.amountReceived = amountReceived ?? sale.amountReceived;
-    sale.paymentMethod = paymentMethod ?? sale.paymentMethod;
-    sale.remarks = remarks ?? sale.remarks;
+   // Update other fields only if provided
+   if (customer !== undefined) sale.customer = customer;
+   if (quantity !== undefined) sale.quantity = quantity;
+   if (rate !== undefined) sale.rate = rate;
+   if (amountReceived !== undefined) sale.amountReceived = amountReceived;
+   if (paymentMethod !== undefined) sale.paymentMethod = paymentMethod;
+   if (remarks !== undefined) sale.remarks = remarks;
 
     await sale.save();
 
