@@ -5,6 +5,7 @@ import cors from "cors";
 import authRoutes from './routes/authRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import productionRoutes from './routes/productionRoutes.js'
+import salesRoutes from './routes/salesRoutes.js'
 
 import connectDB from './config/db.js';
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use('/api/v1/users', authRoutes);
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/production", productionRoutes);
+app.use("/api/v1/sales", salesRoutes)
 
 app.listen(PORT, ()=> {
     console.log(`Server running on PORT ${PORT}`.underline.yellow)
