@@ -7,7 +7,10 @@ export const createSale = async (req, res) => {
     const { date, customer, quantity, rate, amountReceived, paymentMethod, remarks } = req.body;
 
     // Ensure the user ID is included from the authenticated request
-    const userId = req.user.id; 
+    const userId = req.user.id;
+
+    const value = quantity * rate;
+    const outstandingBalance = value - amountReceived;
 
     // Get the latest sale for the given date and find the last serial number
     const lastSale = await Sales.findOne({ date }).sort({ serialNumber: -1 });
@@ -21,8 +24,9 @@ export const createSale = async (req, res) => {
       customer,
       quantity,
       rate,
-      value: quantity * rate,
+      value,
       amountReceived,
+      outstandingBalance,
       paymentMethod,
       remarks,
       user: userId
