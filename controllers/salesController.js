@@ -4,33 +4,31 @@ import moment from "moment";
 // Create a new sales transaction
 export const createSale = async (req, res) => {
   try {
-    const { customer, quantity, rate, amountReceived, paymentMethod, remarks } = req.body;
+    const { date, serialNumber, customer, quantity, rate, amountReceived, paymentMethod, remarks } = req.body;
 
-    // Generate a unique serial number
-    const lastSale = await Sales.findOne().sort({ serialNumber: -1 });
-    const serialNumber = lastSale ? lastSale.serialNumber + 1 : 1;
-
-    // Format date as YYYY-MM-DD
-    const today = moment().format("YYYY-MM-DD");
+    // Ensure the user ID is included from the authenticated request
+    const userId = req.user.id; 
 
     const newSale = new Sales({
-      date: today,
+      date,
       serialNumber,
       customer,
       quantity,
       rate,
-      value: quantity * rate, // Computed on backend
+      value: quantity * rate,
       amountReceived,
       paymentMethod,
-      remarks
+      remarks,
+      user: userId
     });
 
     await newSale.save();
-    res.status(201).json({ message: "Sales transaction recorded successfully", sale: newSale });
+    res.status(201).json(newSale);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // Get all sales transactions
 export const getAllSales = async (req, res) => {
