@@ -87,15 +87,41 @@ export const getSaleById = async (req, res) => {
 // Update a sales transaction
 export const updateSale = async (req, res) => {
   try {
-    const updatedSale = await Sales.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedSale) {
-      return res.status(404).json({ message: "Sales transaction not found" });
+    const { id } = req.params;
+    const { date, customer, quantity, rate, amountReceived, paymentMethod, remarks } = req.body;
+
+    const sale = await Sales.findById(id);
+    if (!sale) {
+      return res.status(404).json({ message: "Sale not found" });
     }
-    res.status(200).json({ message: "Sales transaction updated successfully", sale: updatedSale });
+
+    // If the date is changing, recalculate serial number
+    if (date && date !== sale.date) {
+      // Get the highest serial number for the new date
+      const lastSale = await Sales.findOne({ date }).sort({ serialNumber: -1 });
+      const newSerialNumber = lastSale ? lastSale.serialNumber + 1 : 1;
+
+      sale.serialNumber = newSerialNumber;
+      sale.date = date;
+    }
+
+    // Update other fields
+    sale.customer = customer ?? sale.customer;
+    sale.quantity = quantity ?? sale.quantity;
+    sale.rate = rate ?? sale.rate;
+    sale.value = quantity * rate;
+    sale.amountReceived = amountReceived ?? sale.amountReceived;
+    sale.paymentMethod = paymentMethod ?? sale.paymentMethod;
+    sale.remarks = remarks ?? sale.remarks;
+
+    await sale.save();
+
+    res.status(200).json(sale);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // Delete a sales transaction
 export const deleteSale = async (req, res) => {
