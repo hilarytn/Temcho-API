@@ -4,10 +4,16 @@ import moment from "moment";
 // Create a new sales transaction
 export const createSale = async (req, res) => {
   try {
-    const { date, serialNumber, customer, quantity, rate, amountReceived, paymentMethod, remarks } = req.body;
+    const { date, customer, quantity, rate, amountReceived, paymentMethod, remarks } = req.body;
 
     // Ensure the user ID is included from the authenticated request
     const userId = req.user.id; 
+
+    // Get the latest sale for the given date and find the last serial number
+    const lastSale = await Sales.findOne({ date }).sort({ serialNumber: -1 });
+
+    // Determine the next serial number
+    const serialNumber = lastSale ? lastSale.serialNumber + 1 : 1;
 
     const newSale = new Sales({
       date,
