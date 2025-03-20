@@ -10,7 +10,8 @@ const salesSchema = new mongoose.Schema(
     value: { type: Number, required: true }, // Computed Value (Quantity * Rate)
     amountReceived: { type: Number, required: true }, // Amount actually received
     paymentMethod: { type: String, enum: ["cash", "transfer", "credit"], required: true },
-    remarks: { type: String }
+    remarks: { type: String },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
   },
   { timestamps: true }
 );
