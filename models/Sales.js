@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const salesSchema = new mongoose.Schema(
   {
     date: { type: String, required: true }, // Format: YYYY-MM-DD
-    serialNumber: { type: Number, required: true, unique: true }, // S/NO
+    serialNumber: { type: Number, required: true }, // S/NO
     customer: { type: String, required: true },
     quantity: { type: Number, required: true }, // Quantity in bags
     rate: { type: Number, required: true }, // Rate per bag (in Naira)
