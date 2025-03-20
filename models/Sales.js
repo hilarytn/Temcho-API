@@ -16,4 +16,7 @@ const salesSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Create a compound index to enforce uniqueness of serialNumber within each date
+salesSchema.index({ date: 1, serialNumber: 1 }, { unique: true });
+
 export default mongoose.model("Sales", salesSchema);
