@@ -12,16 +12,16 @@ export const addInventory = async (req, res) => {
     }
   };
   
-  export const getInventory = async (req, res) => {
+export const getInventory = async (req, res) => {
     try {
-      const inventory = await Inventory.find();
+      const inventory = await Inventory.find().populate("addedBy", "name email");
       res.status(200).json(inventory);
     } catch (error) {
       res.status(500).json({ message: "Server error", error: error.message });
     }
-  };
+};
   
-  export const updateInventory = async (req, res) => {
+export const updateInventory = async (req, res) => {
     try {
       const updatedItem = await Inventory.findByIdAndUpdate(req.params.id, req.body, { new: true });
       if (!updatedItem) return res.status(404).json({ message: "Inventory item not found" });
@@ -29,14 +29,14 @@ export const addInventory = async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: "Server error", error: error.message });
     }
-  };
+};
   
-  export const deleteInventory = async (req, res) => {
+export const deleteInventory = async (req, res) => {
     try {
       await Inventory.findByIdAndDelete(req.params.id);
       res.status(200).json({ message: "Inventory item deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: "Server error", error: error.message });
     }
-  };
+};
   
