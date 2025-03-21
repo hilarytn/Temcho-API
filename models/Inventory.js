@@ -1,3 +1,5 @@
+import mongoose from "mongoose"
+
 // Inventory Schema
 const inventorySchema = new mongoose.Schema(
     {
@@ -9,4 +11,4 @@ const inventorySchema = new mongoose.Schema(
     { timestamps: true }
   );
   
-  const Inventory = mongoose.model("Inventory", inventorySchema);
+export default mongoose.model("Inventory", inventorySchema);
