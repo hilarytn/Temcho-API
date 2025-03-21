@@ -5,13 +5,24 @@ export const addInventory = async (req, res) => {
       const { itemName, quantity, unit } = req.body;
       const addedBy = req.user.id;
   
-      const newItem = new Inventory({ itemName, quantity, unit, addedBy });
-      await newItem.save();
-      res.status(201).json(newItem);
+      let inventoryItem = await Inventory.findOne({ itemName });
+  
+      if (inventoryItem) {
+        // Update the existing item's quantity
+        inventoryItem.quantity += quantity;
+        await inventoryItem.save();
+        return res.status(200).json(inventoryItem);
+      } else {
+        // Create a new item if it doesn't exist
+        inventoryItem = new Inventory({ itemName, quantity, unit, addedBy });
+        await inventoryItem.save();
+        return res.status(201).json(inventoryItem);
+      }
     } catch (error) {
       res.status(500).json({ message: "Server error", error: error.message });
     }
   };
+  
   
   export const getInventory = async (req, res) => {
     try {
