@@ -8,6 +8,7 @@ import productionRoutes from './routes/productionRoutes.js'
 import salesRoutes from './routes/salesRoutes.js'
 import expenseRoutes from './routes/expenseRoutes.js'
 import inventoryRoutes from './routes/inventoryRoutes.js'
+import maintenanceRoutes from './routes/maintenanceRoutes.js'
 
 import connectDB from './config/db.js';
 
@@ -28,6 +29,7 @@ app.use("/api/v1/production", productionRoutes);
 app.use("/api/v1/sales", salesRoutes)
 app.use("/api/v1/expense", expenseRoutes)
 app.use("/api/v1/inventory", inventoryRoutes)
+app.use("/api/v1/maintenance", maintenanceRoutes)
 
 app.listen(PORT, ()=> {
     console.log(`Server running on PORT ${PORT}`.underline.yellow)
