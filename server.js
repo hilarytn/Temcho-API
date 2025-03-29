@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import colors from 'colors';
 import cors from "cors";
+import path from "path";
 import authRoutes from './routes/authRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import productionRoutes from './routes/productionRoutes.js'
@@ -22,6 +23,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(process.cwd(), "public")));
 
 // // Routes
 app.use('/api/v1/users', authRoutes);
@@ -32,6 +34,9 @@ app.use("/api/v1/expense", expenseRoutes)
 app.use("/api/v1/inventory", inventoryRoutes)
 app.use("/api/v1/maintenance", maintenanceRoutes)
 app.use("/api/v1/customer", customerRoutes)
+
+// Serve frontend pages
+app.get("/", (req, res) => res.sendFile(path.join(process.cwd(), "public", "login.html")));
 
 app.listen(PORT, ()=> {
     console.log(`Server running on PORT ${PORT}`.underline.yellow)
