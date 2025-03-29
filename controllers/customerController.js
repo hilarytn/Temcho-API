@@ -12,6 +12,25 @@ export const createCustomer = async (req, res) => {
   }
 };
 
+// @desc Get customer by ID
+// @route GET /customers/:id
+// @access Public or Private (depending on auth)
+export const getCustomerById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const customer = await Customer.findById(id);
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    res.status(200).json(customer);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 // Get All Customers
 export const getCustomers = async (req, res) => {
   try {
