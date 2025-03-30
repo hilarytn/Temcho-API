@@ -10,7 +10,7 @@ $(document).ready(function () {
       const role = $('#role').val();
       
       try {
-        const response = await fetch('/api/auth/register', {
+        const response = await fetch('/api/v1/users/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, password, role })
@@ -20,7 +20,7 @@ $(document).ready(function () {
         
         if (response.ok) {
           $('#success-message').text("Registration successful! Redirecting to login...").fadeIn();
-          setTimeout(() => window.location.href = '/login', 2000);
+          setTimeout(() => window.location.href = '/', 2000);
         } else {
           $('#error-message').text(data.message).fadeIn().delay(3000).fadeOut();
         }
