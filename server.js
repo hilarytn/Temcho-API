@@ -50,6 +50,10 @@ app.get("/", (req, res) => {
     res.render("pages/login");
   });
 
+app.get("/register", (req, res) => {
+    res.render("pages/register");
+});
+
 app.listen(PORT, ()=> {
     console.log(`Server running on PORT ${PORT}`.underline.yellow)
 })
