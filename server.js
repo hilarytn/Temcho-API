@@ -19,11 +19,21 @@ dotenv.config()
 connectDB()
 
 const app = express();
+
+// Set EJS as the template engine
+app.set("view engine", "ejs");
+// Set the views directory
+const __dirname = path.resolve();
+app.set("views", path.join(__dirname, "views"));
+
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(process.cwd(), "public")));
+
+// Serve static files (CSS, JS)
+app.use(express.static(path.join(path.resolve(), "public")));
+app.use(express.urlencoded({ extended: true }));
 
 // // Routes
 app.use('/api/v1/users', authRoutes);
@@ -36,7 +46,9 @@ app.use("/api/v1/maintenance", maintenanceRoutes)
 app.use("/api/v1/customer", customerRoutes)
 
 // Serve frontend pages
-app.get("/", (req, res) => res.sendFile(path.join(process.cwd(), "public", "login.html")));
+app.get("/", (req, res) => {
+    res.render("pages/login");
+  });
 
 app.listen(PORT, ()=> {
     console.log(`Server running on PORT ${PORT}`.underline.yellow)
