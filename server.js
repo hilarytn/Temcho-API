@@ -66,7 +66,9 @@ app.get("/sales", (req, res) => {
   res.render("pages/sales");
 });
 
-
+app.use((req, res) => {
+  res.status(404).render("pages/404");
+});
 
 app.listen(PORT, ()=> {
     console.log(`Server running on PORT ${PORT}`.underline.yellow)
