@@ -3,6 +3,7 @@ $(document).ready(function () {
 
     // Trigger the modal when the "Add Sale" button is clicked
     $("#addSaleButton").on("click", function () {
+        $("#addSaleForm")[0].reset();
         $("#addSaleModal").modal("show");
     });
     loadSales();
