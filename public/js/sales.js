@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    let saleIdToDelete = null; // Store sale ID for deletion
+
     // Trigger the modal when the "Add Sale" button is clicked
     $("#addSaleButton").on("click", function () {
         $("#addSaleModal").modal("show");
@@ -13,7 +15,7 @@ $(document).ready(function () {
             method: "POST",
             data: $(this).serialize(),
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')  // Add Authorization header
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             success: function () {
                 $("#addSaleModal").modal("hide");
@@ -34,7 +36,7 @@ $(document).ready(function () {
             method: "PUT",
             data: $(this).serialize(),
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')  // Add Authorization header
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             success: function () {
                 $("#editSaleModal").modal("hide");
@@ -54,7 +56,7 @@ $(document).ready(function () {
             url: "/api/v1/sales/" + saleId,
             method: "GET",
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')  // Add Authorization header
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             success: function (response) {
                 $("#saleId").val(response._id);
@@ -72,23 +74,31 @@ $(document).ready(function () {
         });
     });
 
-    // Delete button click handler
+    // Delete button click handler (triggers confirmation modal)
     $("#salesTable").on("click", ".delete-btn", function () {
-        const saleId = $(this).data("id");
-        $.ajax({
-            url: "/api/v1/sales/" + saleId,
-            method: "DELETE",
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')  // Add Authorization header
-            },
-            success: function () {
-                loadSales();
-                alert("Sale deleted successfully!");
-            },
-            error: function (xhr, status, error) {
-                console.error("Error deleting sale:", error);
-            }
-        });
+        saleIdToDelete = $(this).data("id"); // Store sale ID
+        $("#deleteConfirmationModal").modal("show");
+    });
+
+    // Confirm Delete Sale
+    $("#confirmDeleteButton").on("click", function () {
+        if (saleIdToDelete) {
+            $.ajax({
+                url: "/api/v1/sales/" + saleIdToDelete,
+                method: "DELETE",
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                success: function () {
+                    $("#deleteConfirmationModal").modal("hide");
+                    loadSales();
+                    alert("Sale deleted successfully!");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error deleting sale:", error);
+                }
+            });
+        }
     });
 
     // Load sales data and populate the table
@@ -97,10 +107,9 @@ $(document).ready(function () {
             url: "/api/v1/sales/",
             method: "GET",
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')  // Add Authorization header
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             success: function (response) {
-                console.log(response);  // Log the response to the console
                 let rows = "";
                 response.forEach(sale => {
                     rows += `<tr>
