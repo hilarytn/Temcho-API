@@ -66,6 +66,17 @@ app.get("/sales", (req, res) => {
   res.render("pages/sales");
 });
 
+//test 505
+app.get('/trigger-error', (req, res) => {
+  throw new Error("Simulated server error");
+});
+
+// Catch-all 505 error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack); // Log the error
+  res.status(505).render("pages/505"); // Render the 505.ejs page
+});
+
 app.use((req, res) => {
   res.status(404).render("pages/404");
 });
