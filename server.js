@@ -54,6 +54,20 @@ app.get("/register", (req, res) => {
     res.render("pages/register");
 });
 
+app.get("/dashboard", (req, res) => {
+  res.render("pages/dashboard");
+});
+
+app.get("/production", (req, res) => {
+  res.render("pages/production");
+});
+
+app.get("/sales", (req, res) => {
+  res.render("pages/sales");
+});
+
+
+
 app.listen(PORT, ()=> {
     console.log(`Server running on PORT ${PORT}`.underline.yellow)
 })
