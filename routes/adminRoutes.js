@@ -8,7 +8,9 @@ import {
     softDeleteUser,
     addOperator,
     getAllOperators,
-    getOperatorById} from "../controllers/adminController.js";
+    getOperatorById,
+    getCurrentUser,
+    getDashboardStats} from "../controllers/adminController.js";
 import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -22,5 +24,7 @@ router.put("/users/:id/role", authMiddleware, isAdmin, changeUserRole);
 router.post("/add-operator",authMiddleware, isAdmin, addOperator);
 router.get("/operators", authMiddleware, isAdmin, getAllOperators);
 router.get("/operator/:id", authMiddleware, isAdmin, getOperatorById);
+router.get("/user/me", authMiddleware, isAdmin, getCurrentUser);
+router.get("/dashboard/stats", authMiddleware, isAdmin, getDashboardStats);
 
 export default router;

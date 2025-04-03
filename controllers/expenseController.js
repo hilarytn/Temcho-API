@@ -30,6 +30,46 @@ export const getExpenses = async (req, res) => {
     }
 };
   
+// export const getExpenses = async (req, res) => {
+//   try {
+//       const { page = 1, limit = 5, startDate, endDate } = req.query;
+      
+//       const pageNumber = parseInt(page);
+//       const pageLimit = parseInt(limit);
+      
+//       let dateFilter = {};
+//       if (startDate && endDate) {
+//           dateFilter = {
+//               date: {
+//                   $gte: new Date(startDate),
+//                   $lte: new Date(endDate)
+//               }
+//           };
+//       } else {
+//           const today = new Date();
+//           const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+//           const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+
+//           dateFilter = {
+//               date: { $gte: startOfDay, $lte: endOfDay }
+//           };
+//       }
+
+//       const expenses = await Expense.find(dateFilter)
+//           .skip((pageNumber - 1) * pageLimit)
+//           .limit(pageLimit)
+//           .sort({ date: -1 });
+
+//       const totalExpenses = await Expense.countDocuments(dateFilter);
+//       const totalPages = Math.ceil(totalExpenses / pageLimit);
+
+//       res.status(200).json({ expenses, totalPages, currentPage: pageNumber, totalExpenses });
+//   } catch (error) {
+//       res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
+
+
 export const getExpenseById = async (req, res) => {
     try {
       const expense = await Expense.findById(req.params.id);

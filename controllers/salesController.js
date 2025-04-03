@@ -40,7 +40,6 @@ export const createSale = async (req, res) => {
 };
 
 
-// Get all sales transactions
 export const getAllSales = async (req, res) => {
   try {
     const sales = await Sales.find().sort({ date: -1, serialNumber: 1 });
@@ -69,7 +68,7 @@ export const getSalesByDate = async (req, res) => {
       res.status(500).json({ message: "Server error", error: error.message });
     }
   };
-  
+
 
 // Get a single sales transaction by ID
 export const getSaleById = async (req, res) => {

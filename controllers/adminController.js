@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Production from "../models/Production.js";
 
 // @desc Get all users
 // @route GET /api/admin/users
@@ -147,3 +148,38 @@ export const getOperatorById = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+// Fetch logged-in user details
+export const getCurrentUser = async (req, res) => {
+  try {
+      const user = await User.findById(req.user.id); // Assuming user ID is available in req.user
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      res.status(200).json({
+          username: user.name,
+          // Add other user fields as needed
+      });
+  } catch (error) {
+      res.status(500).json({ message: "Server error", error });
+  }
+};
+
+
+export const getDashboardStats = async (req, res) => {
+  try {
+      const totalUsers = await User.countDocuments();
+      const totalProductions = await Production.countDocuments();
+      const pendingApprovals = await User.countDocuments({ status: 'pending' }); // Modify as needed
+      const systemHealth = 'Good'; // You can implement more complex health checks here
+
+      res.status(200).json({
+          totalUsers,
+          totalProductions,
+          pendingApprovals,
+          systemHealth
+      });
+  } catch (error) {
+      res.status(500).json({ message: "Server error", error });
+  }
+};
+

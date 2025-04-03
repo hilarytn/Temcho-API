@@ -1,52 +1,46 @@
 $(document).ready(function () {
-    const token = localStorage.getItem("token"); // Get auth token
+    const token = localStorage.getItem("token");
 
+    // Check for token, redirect to login if missing
     if (!token) {
-        window.location.href = "/"; // Redirect if not logged in
+        window.location.href = "/"; // Redirect to login page if no token
+        return;
     }
 
     // Show spinner until data is loaded
     $("#spinner").show();
-    $("#dashboardCards").hide();
 
-    // Fetch logged-in user details
+    // Test the API by fetching dashboard data
     $.ajax({
-        url: "/api/v1/user/me",
+        url: "/api/v1/admin/dashboard/stats", // Make sure this endpoint is correct
         type: "GET",
         headers: { Authorization: `Bearer ${token}` },
         success: function (data) {
-            $("#loggedInUser").text(data.username); // Display username
-        },
-        error: function () {
-            $("#loggedInUser").text("Unknown User");
-        }
-    });
+            console.log("Data from API:", data);  // Log the response to verify
 
-    // Fetch dashboard stats
-    $.ajax({
-        url: "/api/v1/dashboard/stats",
-        type: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-        success: function (data) {
-            $("#totalUsers").text(data.totalUsers);
-            $("#totalPosts").text(data.totalPosts);
-            $("#pendingApprovals").text(data.pendingApprovals);
-            $("#systemHealth").text(data.systemHealth).addClass(data.systemHealth === "Good" ? "text-success" : "text-danger");
+            // If data is not returned as expected, log an error and hide spinner
+            if (!data || !data.totalUsers) {
+                console.log("Error: Invalid data format");
+                $("#spinner").hide();
+                return;
+            }
 
-            // Hide spinner and show data
+            // Populate the card with fetched data
+            $("#totalUsers").text(data.totalUsers || 0);
+            $("#totalPosts").text(data.totalPosts || 0);  // Make sure data field exists
+            $("#pendingApprovals").text(data.pendingApprovals || 0);  // Make sure data field exists
+            $("#systemHealth").text(data.systemHealth || "Unknown")
+                .removeClass("text-success text-danger") // Remove previous classes
+                .addClass(data.systemHealth === "Good" ? "text-success" : "text-danger");
+
+            // Hide the spinner and show the cards
             $("#spinner").hide();
-            $("#dashboardCards").show();
+            $("#dashboardCards").removeClass("d-none"); // Show the cards
         },
-        error: function () {
-            // Hide spinner and show error message
+        error: function (xhr, status, error) {
+            console.log("Error fetching data:", status, error);
             $("#spinner").hide();
             alert("Error loading data.");
         }
-    });
-
-    // Logout
-    $("#logoutBtn").click(function () {
-        localStorage.removeItem("token");
-        window.location.href = "/";
     });
 });
