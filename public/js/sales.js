@@ -149,8 +149,10 @@ $(document).ready(function () {
                         <td>${sale.amountReceived}</td>
                         <td>${sale.paymentMethod}</td>
                         <td>
-                            <button class="btn btn-warning edit-btn" data-id="${sale._id}">Edit</button>
-                            <button class="btn btn-danger delete-btn" data-id="${sale._id}">Delete</button>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-warning edit-btn" data-id="${sale._id}">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="${sale._id}">Delete</button>
+                            </div>
                         </td>
                     </tr>`;
                 });

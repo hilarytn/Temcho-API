@@ -21,8 +21,10 @@ $(document).ready(function () {
                             <td>${expense.amount}</td>
                             <td>${expense.description}</td>
                             <td>
-                                <button class="btn btn-warning btn-sm edit-btn" data-id="${expense._id}" data-date="${expense.date}" data-category="${expense.category}" data-amount="${expense.amount}" data-description="${expense.description}">Edit</button>
-                                <button class="btn btn-danger btn-sm delete-btn" data-id="${expense._id}">Delete</button>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-warning btn-sm edit-btn" data-id="${expense._id}" data-date="${expense.date}" data-category="${expense.category}" data-amount="${expense.amount}" data-description="${expense.description}">Edit</button>
+                                    <button class="btn btn-danger btn-sm delete-btn" data-id="${expense._id}">Delete</button>
+                                </div>
                             </td>
                         </tr>
                     `);
