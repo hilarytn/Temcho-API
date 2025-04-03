@@ -35,25 +35,26 @@
 
     <!-- Add New Production Button -->
     <button class="btn btn-dark my-3" data-bs-toggle="modal" data-bs-target="#addProductionModal">Add Production</button>
-
+    <div class="table-responsive">
     <!-- Production Table -->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Quantity</th>
-                <th>Shift</th>
-                <th>Operator</th>
-                <th>Nylon Rolls Used</th>
-                <th>Packing Bags Used</th>
-                <th>Power Source</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="productionTableBody">
-            <!-- Data will be inserted here using AJAX -->
-        </tbody>
-    </table>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Quantity</th>
+                    <th>Shift</th>
+                    <th>Operator</th>
+                    <th>Nylon Rolls Used</th>
+                    <th>Packing Bags Used</th>
+                    <th>Power Source</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="productionTableBody">
+                <!-- Data will be inserted here using AJAX -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Add Production Modal -->
