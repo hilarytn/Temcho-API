@@ -11,7 +11,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/dashboard">TEMCHO ENTERPRISES -   Admin Panel</a>
+            <a class="navbar-brand" href="#">Admin Panel</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,8 +34,16 @@
     <div class="container mt-4">
         <h2 class="text-center">Admin Dashboard</h2>
 
-        <div class="row mt-4">
-            <div class="col-md-3">
+        <!-- Spinner -->
+        <div id="spinner" class="text-center mt-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Cards Row -->
+        <div id="dashboardCards" class="row mt-4 d-none">
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Total Users</h5>
@@ -43,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Total Posts</h5>
@@ -51,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Pending Approvals</h5>
@@ -59,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">System Health</h5>
