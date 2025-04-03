@@ -66,6 +66,10 @@ app.get("/sales", (req, res) => {
   res.render("pages/sales");
 });
 
+app.get("/expense", (req, res) => {
+  res.render("pages/expenses");
+});
+
 //test 505
 app.get('/trigger-error', (req, res) => {
   throw new Error("Simulated server error");
