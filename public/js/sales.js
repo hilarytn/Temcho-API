@@ -13,7 +13,7 @@ $(document).ready(function () {
     $("#addSaleForm").on("submit", function (e) {
         e.preventDefault();
         let submitBtn = $("#addSaleForm button[type='submit']");
-        submitBtn.prop("disabled", true); // Disable button to prevent multiple clicks
+        submitBtn.prop("disabled", true);
 
         $.ajax({
             url: "/api/v1/sales/create",
@@ -27,11 +27,11 @@ $(document).ready(function () {
                 loadSales();
                 alert("Sale added successfully!");
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 alert("Error adding sale: " + xhr.responseText);
             },
             complete: function () {
-                submitBtn.prop("disabled", false); // Re-enable button
+                submitBtn.prop("disabled", false);
             }
         });
     });
@@ -54,7 +54,7 @@ $(document).ready(function () {
                 loadSales();
                 alert("Sale updated successfully!");
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 alert("Error updating sale: " + xhr.responseText);
             },
             complete: function () {
@@ -83,7 +83,7 @@ $(document).ready(function () {
                 $("#editPaymentMethod").val(response.paymentMethod);
                 $("#editSaleModal").modal("show");
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 alert("Error fetching sale details: " + xhr.responseText);
             }
         });
@@ -91,15 +91,15 @@ $(document).ready(function () {
 
     // Delete button click handler (triggers confirmation modal)
     $("#salesTable").on("click", ".delete-btn", function () {
-        saleIdToDelete = $(this).data("id"); // Store sale ID
-        console.log("Sale ID to delete:", saleIdToDelete); // Debugging
+        saleIdToDelete = $(this).data("id");
+        console.log("Sale ID to delete:", saleIdToDelete);
         $("#deleteConfirmationModal").modal("show");
     });
 
     // Confirm Delete Sale
     $("#confirmDeleteBtn").off("click").on("click", function () {
         if (saleIdToDelete) {
-            console.log("Deleting sale with ID:", saleIdToDelete); // Debugging
+            console.log("Deleting sale with ID:", saleIdToDelete);
 
             let deleteBtn = $(this);
             deleteBtn.prop("disabled", true);
@@ -111,18 +111,18 @@ $(document).ready(function () {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 success: function () {
-                    console.log("Sale deleted successfully!"); // Debugging
+                    console.log("Sale deleted successfully!");
                     $("#deleteConfirmationModal").modal("hide");
                     loadSales();
                     alert("Sale deleted successfully!");
                 },
-                error: function (xhr, status, error) {
-                    console.error("Error deleting sale:", error);
+                error: function (xhr) {
+                    console.error("Error deleting sale:", xhr.responseText);
                     alert("Error deleting sale: " + xhr.responseText);
                 },
                 complete: function () {
                     deleteBtn.prop("disabled", false);
-                    saleIdToDelete = null; // Reset sale ID after deletion
+                    saleIdToDelete = null;
                 }
             });
         } else {
@@ -156,7 +156,7 @@ $(document).ready(function () {
                 });
                 $("#salesTable tbody").html(rows);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 alert("Error loading sales: " + xhr.responseText);
             }
         });
