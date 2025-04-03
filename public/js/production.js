@@ -26,8 +26,10 @@ $(document).ready(function () {
                             <td>${record.packingBagsUsed}</td>
                             <td>${record.powerSource}</td>
                             <td>
-                                <button class="btn btn-warning btn-sm edit-btn" data-id="${record._id}">Edit</button>
-                                <button class="btn btn-danger btn-sm delete-btn" data-id="${record._id}">Delete</button>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-warning btn-sm edit-btn" data-id="${record._id}">Edit</button>
+                                    <button class="btn btn-danger btn-sm delete-btn" data-id="${record._id}">Delete</button>
+                                </div>
                             </td>
                         </tr>
                     `;
