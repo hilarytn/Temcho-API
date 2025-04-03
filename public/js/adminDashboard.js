@@ -1,42 +1,52 @@
 $(document).ready(function () {
-    // Check if token exists
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token"); // Get auth token
+
     if (!token) {
-        console.warn("No token found, redirecting to login...");
-        window.location.href = '/login'; // Redirect if no token
-        return;
+        window.location.href = "/"; // Redirect if not logged in
     }
-    // Fetch Dashboard Stats
+
+    // Show spinner until data is loaded
+    $("#spinner").show();
+    $("#dashboardCards").hide();
+
+    // Fetch logged-in user details
     $.ajax({
-        url: '/api/v1/admin/users',
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}` },
+        url: "/api/v1/user/me",
+        type: "GET",
+        headers: { Authorization: `Bearer ${token}` },
         success: function (data) {
-            $('#totalUsers').text("123");
-            $('#totalPosts').text("11");
-            $('#pendingApprovals').text("k@k.com");
-            $('#systemHealth').text("Good");
+            $("#loggedInUser").text(data.username); // Display username
         },
-        error: function (xhr, status, error) {
-            console.error("Error fetching dashboard data:", error);
-            //window.location.href = '/'; // Redirect if unauthorized
+        error: function () {
+            $("#loggedInUser").text("Unknown User");
         }
     });
 
-    // Logout Function
-    $('#logoutBtn').click(function () {
-        console.log("Logout button clicked!"); 
-        $.ajax({
-            url: '/api/v1/users/logout',
-            method: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` },
-            success: function () {
-                localStorage.removeItem('token'); // Remove Token
-                window.location.href = '/'; // Redirect to Login
-            },
-            error: function (xhr, status, error) {
-                console.error("Logout failed:", error);
-            }
-        });
+    // Fetch dashboard stats
+    $.ajax({
+        url: "/api/v1/dashboard/stats",
+        type: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+        success: function (data) {
+            $("#totalUsers").text(data.totalUsers);
+            $("#totalPosts").text(data.totalPosts);
+            $("#pendingApprovals").text(data.pendingApprovals);
+            $("#systemHealth").text(data.systemHealth).addClass(data.systemHealth === "Good" ? "text-success" : "text-danger");
+
+            // Hide spinner and show data
+            $("#spinner").hide();
+            $("#dashboardCards").show();
+        },
+        error: function () {
+            // Hide spinner and show error message
+            $("#spinner").hide();
+            alert("Error loading data.");
+        }
+    });
+
+    // Logout
+    $("#logoutBtn").click(function () {
+        localStorage.removeItem("token");
+        window.location.href = "/";
     });
 });
